@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iris ML Classifier</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            width: 350px;
+            margin: auto;
+            border-radius: 12px;
+        }
+        input, select, button {
+            width: 90%;
+            padding: 8px;
+            margin: 8px;
+            border-radius: 6px;
+            border: none;
+        }
+        button {
+            background: #38bdf8;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🌸 Iris Species Predictor</h1>
+
+<div class="card">
+    <input type="number" step="any" id="sl" placeholder="Sepal Length">
+    <input type="number" step="any" id="sw" placeholder="Sepal Width">
+    <input type="number" step="any" id="pl" placeholder="Petal Length">
+    <input type="number" step="any" id="pw" placeholder="Petal Width">
+
+    <select id="model">
+        <option value="svm">Support Vector Machine</option>
+        <option value="logreg">Logistic Regression</option>
+        <option value="tree">Decision Tree</option>
+    </select>
+
+    <button onclick="predict()">Predict</button>
+
+    <h3 id="result"></h3>
+    <p id="conf"></p>
+</div>
+
+<script>
+function predict() {
+    fetch("/predict", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            features: [
+                parseFloat(sl.value),
+                parseFloat(sw.value),
+                parseFloat(pl.value),
+                parseFloat(pw.value)
+            ],
+            model: model.value
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        result.innerText = "Species: " + data.prediction;
+        conf.innerText = "Confidence: " + data.confidence + "%";
+    });
+}
+</script>
+
+</body>
+</html>
