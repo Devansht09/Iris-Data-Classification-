@@ -3,4 +3,4 @@ Now, i also made a nice frontend UI for it, where you can enter your flower deta
 How to operate? download the whole thing, open terminal from the folder, and type these 2 commands : 
 1. pip install flask scikit-learn pandas
 2. python app.py
-Enjoy!!
+
